@@ -14,6 +14,7 @@ namespace growbe_sim
     public enum CWMODE { AP=3,SoftAP=2}
     public enum AUTHAP { Open=0,WPA_PSK=2,WPA2_PSK=3,WPA_WPA2_PSK=4}
     public enum DHCPMode { AP=1,STA=2,AP_STA=3}
+    public enum CONFIGMode { CUR=1,DEF=2}
 
     public class ReturnValue
     {
@@ -84,6 +85,8 @@ namespace growbe_sim
 
         public DHCPMode DHCPMode { get; set; }
 
+        public CONFIGMode ConfigMode { get; set; } = CONFIGMode.CUR;
+
         private TextBox _logbox;
 
 
@@ -119,7 +122,7 @@ namespace growbe_sim
                 str = "2,1";
             else
                 str = ((int)mode).ToString();
-            var r = SendCommand($"AT+CWDHCP_DEF={str}");
+            var r = SendCommand($"AT+CWDHCP_{ConfigMode}={str}");
             if (r.Result == "OK")
             {
                 DHCPMode = mode;
@@ -129,9 +132,10 @@ namespace growbe_sim
 
         }
 
-        public bool SetTcpServeur(int port)
+        public bool SetTcpServeur(bool state,int port)
         {
-            var r = SendCommand($"AT+CIPSERVER=1,{port}");
+            var intv = state ? 1 : 0;
+            var r = SendCommand($"AT+CIPSERVER={intv},{port}");
             if(r.Result == "OK")
             {
                 TcpEnable = port;
@@ -142,7 +146,7 @@ namespace growbe_sim
 
         public bool SetApNetwork(APNetwork net)
         {
-            var ret = SendCommand($"AT+CWSAP_DEF={net.ToString()}");
+            var ret = SendCommand($"AT+CWSAP_{ConfigMode}={net.ToString()}");
             if(ret.Result == "OK")
             {
                 return true;
@@ -151,7 +155,7 @@ namespace growbe_sim
         }
         public bool SetApNetworkAdresse(APNetworkAdresse adr)
         {
-            var ret = SendCommand("AT+CIPAP_DEF="+adr.ToString());
+            var ret = SendCommand($"AT+CIPAP_{ConfigMode}="+adr.ToString());
             if(ret.Result == "OK")
             {
                 ApNetwork.Network = adr;
@@ -170,7 +174,7 @@ namespace growbe_sim
 
         public bool SetAPMode(CWMODE mode)
         {
-            var ret = SendCommand($"AT+CWMODE_DEF={(int)mode}");
+            var ret = SendCommand($"AT+CWMODE_{ConfigMode}={(int)mode}");
             
             if (ret.Result == "OK")
             {
@@ -277,6 +281,14 @@ namespace growbe_sim
                 ApNetwork.Network = GetApNetworkAdresse();
             }
             // regarde en qu'elle mode DHCP il est configurer
+            DHCPMode = GetDHCPMode();
+
+        }
+
+
+        public void ThreadTCPServeur(SerialPort serialport)
+        {
+
         }
 
     }

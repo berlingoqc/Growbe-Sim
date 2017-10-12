@@ -32,13 +32,17 @@
             this.txtPort = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.rbDef = new System.Windows.Forms.RadioButton();
+            this.rbCur = new System.Windows.Forms.RadioButton();
             this.label10 = new System.Windows.Forms.Label();
             this.lblThreadState = new System.Windows.Forms.Label();
             this.txtShowConnected = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
+            this.rbSTA = new System.Windows.Forms.RadioButton();
+            this.rbAPDHCP = new System.Windows.Forms.RadioButton();
             this.label9 = new System.Windows.Forms.Label();
-            this.cbSTA = new System.Windows.Forms.CheckBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.cbMultiCon = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.numPort = new System.Windows.Forms.NumericUpDown();
@@ -67,6 +71,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPort)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -100,6 +105,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox5);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.lblThreadState);
             this.groupBox2.Controls.Add(this.txtShowConnected);
@@ -117,6 +123,42 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Information";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.rbDef);
+            this.groupBox5.Controls.Add(this.rbCur);
+            this.groupBox5.Location = new System.Drawing.Point(205, 19);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(144, 76);
+            this.groupBox5.TabIndex = 15;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Changement Config";
+            // 
+            // rbDef
+            // 
+            this.rbDef.AutoSize = true;
+            this.rbDef.Location = new System.Drawing.Point(23, 42);
+            this.rbDef.Name = "rbDef";
+            this.rbDef.Size = new System.Drawing.Size(46, 17);
+            this.rbDef.TabIndex = 14;
+            this.rbDef.TabStop = true;
+            this.rbDef.Text = "DEF";
+            this.rbDef.UseVisualStyleBackColor = true;
+            this.rbDef.CheckedChanged += new System.EventHandler(this.rbCur_CheckedChanged);
+            // 
+            // rbCur
+            // 
+            this.rbCur.AutoSize = true;
+            this.rbCur.Checked = true;
+            this.rbCur.Location = new System.Drawing.Point(23, 21);
+            this.rbCur.Name = "rbCur";
+            this.rbCur.Size = new System.Drawing.Size(48, 17);
+            this.rbCur.TabIndex = 13;
+            this.rbCur.TabStop = true;
+            this.rbCur.Text = "CUR";
+            this.rbCur.UseVisualStyleBackColor = true;
+            this.rbCur.CheckedChanged += new System.EventHandler(this.rbCur_CheckedChanged);
             // 
             // label10
             // 
@@ -149,9 +191,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.radioButton3);
+            this.groupBox4.Controls.Add(this.rbSTA);
+            this.groupBox4.Controls.Add(this.rbAPDHCP);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.cbSTA);
-            this.groupBox4.Controls.Add(this.checkBox1);
             this.groupBox4.Controls.Add(this.cbMultiCon);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.numPort);
@@ -163,6 +206,41 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Serveur";
             // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Checked = true;
+            this.radioButton3.Location = new System.Drawing.Point(177, 21);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(66, 17);
+            this.radioButton3.TabIndex = 11;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "AP+STA";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            this.radioButton3.CheckedChanged += new System.EventHandler(this.rbAP_CheckedChanged);
+            // 
+            // rbSTA
+            // 
+            this.rbSTA.AutoSize = true;
+            this.rbSTA.Location = new System.Drawing.Point(125, 21);
+            this.rbSTA.Name = "rbSTA";
+            this.rbSTA.Size = new System.Drawing.Size(46, 17);
+            this.rbSTA.TabIndex = 10;
+            this.rbSTA.Text = "STA";
+            this.rbSTA.UseVisualStyleBackColor = true;
+            this.rbSTA.CheckedChanged += new System.EventHandler(this.rbAP_CheckedChanged);
+            // 
+            // rbAPDHCP
+            // 
+            this.rbAPDHCP.AutoSize = true;
+            this.rbAPDHCP.Location = new System.Drawing.Point(80, 21);
+            this.rbAPDHCP.Name = "rbAPDHCP";
+            this.rbAPDHCP.Size = new System.Drawing.Size(39, 17);
+            this.rbAPDHCP.TabIndex = 8;
+            this.rbAPDHCP.Text = "AP";
+            this.rbAPDHCP.UseVisualStyleBackColor = true;
+            this.rbAPDHCP.CheckedChanged += new System.EventHandler(this.rbAP_CheckedChanged);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -171,28 +249,6 @@
             this.label9.Size = new System.Drawing.Size(37, 13);
             this.label9.TabIndex = 7;
             this.label9.Text = "DHCP";
-            // 
-            // cbSTA
-            // 
-            this.cbSTA.AutoSize = true;
-            this.cbSTA.Location = new System.Drawing.Point(125, 22);
-            this.cbSTA.Name = "cbSTA";
-            this.cbSTA.Size = new System.Drawing.Size(47, 17);
-            this.cbSTA.TabIndex = 6;
-            this.cbSTA.Text = "STA";
-            this.cbSTA.UseVisualStyleBackColor = true;
-            this.cbSTA.CheckedChanged += new System.EventHandler(this.cbDHCP_CheckedChanged);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(74, 22);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(40, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "AP";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.cbDHCP_CheckedChanged);
             // 
             // cbMultiCon
             // 
@@ -475,6 +531,8 @@
             this.Load += new System.EventHandler(this.SimTab_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numPort)).EndInit();
@@ -519,11 +577,15 @@
         private System.Windows.Forms.CheckBox cbMultiCon;
         private System.Windows.Forms.TextBox txtAuth;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox cbSTA;
         private System.Windows.Forms.Button btnStartThread;
         private System.Windows.Forms.Label lblThreadState;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Button txtShowConnected;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rbDef;
+        private System.Windows.Forms.RadioButton rbCur;
+        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton rbSTA;
+        private System.Windows.Forms.RadioButton rbAPDHCP;
     }
 }

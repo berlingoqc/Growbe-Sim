@@ -40,26 +40,10 @@ namespace growbe_sim
                 txtIP.Text = _growbe.ApNetwork.Network.IPAdresse;
                 txtMask.Text = _growbe.ApNetwork.Network.Mask;
                 txtGW.Text = _growbe.ApNetwork.Network.Gateway;
-                cbSTA.Checked = _growbe.DHCPMode == DHCPMode.STA || _growbe.DHCPMode == DHCPMode.STA;
-                cbTCP.Checked = _growbe.TcpEnable > 0;
-                numPort.Value = _growbe.TcpEnable;
+
+
                 cbMultiCon.Checked = _growbe.MuxEnable;
             }
-        }
-
-        private void cbDHCP_CheckedChanged(object sender, EventArgs e)
-        {
-            var mode = DHCPMode.AP;
-            if (!cbAP.Checked && cbSTA.Checked)
-            {
-                mode = DHCPMode.STA;
-            }
-            else if (cbAP.Checked && cbSTA.Checked)
-            {
-                mode = DHCPMode.AP_STA;
-            }
-            _growbe.SetDHCPMode(mode);
-
         }
 
         private void cbAP_CheckedChanged(object sender, EventArgs e)
@@ -131,14 +115,16 @@ namespace growbe_sim
         {
             if (cbTCP.Checked && _growbe.TcpEnable == 0)
             {
-                if(_growbe.SetTcpServeur((int)numPort.Value))
+                if (!cbMultiCon.Checked)
+                    cbMultiCon.Checked = true;
+                if(_growbe.SetTcpServeur(true,(int)numPort.Value))
                 {
                     MessageBox.Show($"Le serveur TCP est démarré à {_growbe.ApNetwork.Network.IPAdresse}:{numPort.Value} démarrer la thread de simulation pour commencé l'écoute !");
                 }
             }
-            else
+            else if(!cbTCP.Checked)
             {
-
+                _growbe.SetTcpServeur(false, 0);
             }
         }
 
@@ -160,11 +146,40 @@ namespace growbe_sim
         private void txtShowConnected_Click(object sender, EventArgs e)
         {
             var s = _growbe.GetConnectedStations();
-            if (s.Length == 0) return; 
             var msg = "";
-            foreach (var i in s)
-                msg += $"IP : {i.Item1} MAC : {i.Item2}" + Environment.NewLine;
+            if (s.Length == 0)
+            {
+                msg = "Aucune station de connecté";
+            }else
+            {
+                foreach (var i in s)
+                    msg += $"IP : {i.Item1} MAC : {i.Item2}" + Environment.NewLine;
+            }
             MessageBox.Show(msg, $"Stations Connecté : {s.Length}");
+        }
+
+        private void rbAP_CheckedChanged(object sender, EventArgs e)
+        {
+            DHCPMode m = DHCPMode.AP_STA;
+            if (rbAPDHCP.Checked)
+            {
+                m = DHCPMode.AP;
+            } else if (rbSTA.Checked)
+            {
+                m = DHCPMode.STA;
+            }
+            _growbe.SetDHCPMode(m);
+        }
+
+        private void rbCur_CheckedChanged(object sender, EventArgs e)
+        {
+            if (rbCur.Checked)
+            {
+                _growbe.ConfigMode = CONFIGMode.CUR;
+            } else
+            {
+                _growbe.ConfigMode = CONFIGMode.DEF;
+            }
         }
     }
 }

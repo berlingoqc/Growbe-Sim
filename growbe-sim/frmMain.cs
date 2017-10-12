@@ -27,10 +27,13 @@ namespace growbe_sim
             cbCOM.Items.AddRange(SerialPort.GetPortNames());
             cbBraud.Items.AddRange(BraudRates);
             cbChip.Items.AddRange(Chips);
-            cbCOM.SelectedIndex = 0;
             cbBraud.SelectedIndex = 0;
             cbChip.SelectedIndex = 0;
-            btnAddSim_Click(null, null);
+            if (cbCOM.Items.Count > 0)
+            {
+                cbCOM.SelectedIndex = 0;
+                btnAddSim_Click(null, null);
+            }
         }
 
         private void btnAddSim_Click(object sender, EventArgs e)
